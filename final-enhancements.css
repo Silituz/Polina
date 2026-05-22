@@ -3,6 +3,23 @@
   min-height: 124px;
 }
 
+.polina-wolf-art {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  z-index: 2;
+  width: min(62%, 230px);
+  height: auto;
+  opacity: 0.9;
+  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.38));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.frame-hero-stage .wolf-run {
+  display: none;
+}
+
 .ending-banner {
   position: relative;
   display: grid;
