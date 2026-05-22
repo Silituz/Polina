@@ -1,0 +1,89 @@
+.answer-grid {
+  grid-template-columns: 1fr;
+  min-height: 124px;
+}
+
+.ending-banner {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  overflow: hidden;
+  border: 2px solid #100918;
+  border-radius: 8px;
+  color: #120810;
+  background: linear-gradient(135deg, #fff8f1, #f5c66f);
+  box-shadow: 5px 5px 0 #100918, 0 14px 28px rgba(0, 0, 0, 0.28);
+}
+
+.ending-banner::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0.36;
+  background: linear-gradient(90deg, #fff 0 33%, #2b61d1 33% 66%, #d42c3a 66%);
+  mix-blend-mode: multiply;
+}
+
+.ending-banner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ending-label {
+  justify-self: start;
+  padding: 3px 8px;
+  border: 2px solid #100918;
+  border-radius: 999px;
+  color: #fff8f1;
+  background: #7b1f2a;
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.ending-banner strong {
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
+.ending-banner small {
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.32;
+}
+
+.ending-good { background: linear-gradient(135deg, #fff8f1, #9ed8e8); }
+.ending-normal { background: linear-gradient(135deg, #fff8f1, #f5c66f); }
+.ending-evil { color: #fff8f1; background: linear-gradient(135deg, #7b1f2a, #121a29); }
+.ending-evil .ending-label { color: #120810; background: #f5c66f; }
+
+.heart-burst {
+  width: 18px;
+  height: 18px;
+  color: transparent;
+  background: var(--heart-color);
+  transform: rotate(45deg);
+  animation: heartBurst 900ms ease forwards;
+}
+
+.heart-burst::before,
+.heart-burst::after {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  content: "";
+  border-radius: 50%;
+  background: inherit;
+}
+
+.heart-burst::before { left: -9px; }
+.heart-burst::after { top: -9px; }
+.heart-white { --heart-color: #fff8f1; }
+.heart-blue { --heart-color: #2b61d1; }
+.heart-red { --heart-color: #d42c3a; }
+
+@keyframes heartBurst {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(0.5) rotate(45deg); }
+  to { opacity: 0; transform: translate(var(--x), var(--y)) scale(1.55) rotate(calc(45deg + var(--spin))); }
+}
