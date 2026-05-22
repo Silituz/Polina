@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#7b1f2a">
+    <meta name="description" content="A Russian-inspired wolf birthday surprise for Polina.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Happy Birthday, Polina">
+    <meta property="og:description" content="A warm birthday page for Polina with wolves, winter light, and English/Russian text.">
+    <title>Happy Birthday, Polina</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="birthday-card" aria-live="polite">
+        <header class="topbar">
+          <button class="music-button" id="musicButton" type="button" aria-label="Music placeholder">
+            <span aria-hidden="true">&#9834;</span>
+          </button>
+
+          <div class="language-switch" role="group" aria-label="Language switch">
+            <button class="lang-option active" type="button" data-lang="en">ENG</button>
+            <button class="lang-option" type="button" data-lang="ru">RU</button>
+          </div>
+        </header>
+
+        <section class="hero">
+          <div class="moon" aria-hidden="true"></div>
+          <div class="wolf-pack" aria-hidden="true">
+            <span class="wolf wolf-one"></span>
+            <span class="wolf wolf-two"></span>
+            <span class="wolf wolf-three"></span>
+          </div>
+          <div class="hero-photo" data-photo-key="01">
+            <span data-i18n="photoHero">Photo coming soon</span>
+          </div>
+          <p class="eyebrow" data-i18n="eyebrow">Birthday under the northern moon</p>
+          <h1 data-i18n="title">Happy Birthday, Polina</h1>
+          <p class="lead" data-i18n="lead">
+            A little page with winter light, wolf courage, and a warm birthday wish from a good friend.
+          </p>
+        </section>
+
+        <section class="message-grid" aria-label="Birthday messages">
+          <article class="message-panel">
+            <span class="panel-number">01</span>
+            <h2 data-i18n="panelOneTitle">Your day, your fire</h2>
+            <p data-i18n="panelOneText">
+              I hope today feels bright, calm, and completely yours, with enough laughter to stay in your memory for a long time.
+            </p>
+          </article>
+
+          <article class="message-panel accent">
+            <span class="panel-number">02</span>
+            <h2 data-i18n="panelTwoTitle">Wolf heart</h2>
+            <p data-i18n="panelTwoText">
+              May you keep the strength of a wolf: loyal, sharp, free, and impossible to push away from your own path.
+            </p>
+          </article>
+
+          <article class="message-panel">
+            <span class="panel-number">03</span>
+            <h2 data-i18n="panelThreeTitle">A warm wish</h2>
+            <p data-i18n="panelThreeText">
+              I wish you beautiful surprises, honest people nearby, and a year that gives back the same warmth you give others.
+            </p>
+          </article>
+        </section>
+
+        <section class="wish-card">
+          <p class="eyebrow" data-i18n="finalEyebrow">From a good friend</p>
+          <h2 data-i18n="finalTitle">Never forget how special you are</h2>
+          <p data-i18n="finalText">
+            Polina, happy birthday. I am really glad that you exist in this world, and I hope this new year of your life brings you courage, peace, and many moments that feel like they were made exactly for you.
+          </p>
+        </section>
+
+        <section class="gallery-preview" aria-label="Future photos">
+          <button class="photo-tile" type="button" data-photo-key="02"><span>Photo 02</span></button>
+          <button class="photo-tile" type="button" data-photo-key="03"><span>Photo 03</span></button>
+          <button class="photo-tile" type="button" data-photo-key="04"><span>Photo 04</span></button>
+        </section>
+      </section>
+
+      <dialog class="photo-modal" id="photoModal" aria-label="Photo preview">
+        <button class="modal-close" id="modalClose" type="button" aria-label="Close">x</button>
+        <div class="modal-preview" id="modalPreview">Photo coming soon</div>
+        <p id="modalCaption">Add your image later in the assets folder.</p>
+      </dialog>
+
+      <audio id="birthdaySong" preload="auto" loop playsinline src="assets/birthday-song.mp3"></audio>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
