@@ -3,6 +3,41 @@
   min-height: 124px;
 }
 
+h1,
+h2 {
+  letter-spacing: 0;
+  color: #fff8f1;
+  text-shadow:
+    0 2px 0 #100918,
+    0 0 24px rgba(245, 198, 111, 0.42),
+    0 0 44px rgba(158, 216, 232, 0.22);
+}
+
+.cover-main,
+.panel-card h2,
+.final-screen h2 {
+  color: transparent;
+  background: linear-gradient(135deg, #fff8f1 10%, #f5c66f 52%, #9ed8e8 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.panel-card,
+.final-card,
+.wish-card {
+  border-color: rgba(245, 198, 111, 0.78) !important;
+  box-shadow:
+    6px 6px 0 #100918,
+    0 24px 54px rgba(0, 0, 0, 0.34),
+    inset 0 0 0 1px rgba(255, 248, 241, 0.14);
+}
+
+.panel-card::after,
+.final-card::after,
+.wish-card::after {
+  border-color: rgba(245, 198, 111, 0.54) !important;
+}
+
 .polina-wolf-art {
   position: absolute;
   left: 50%;
@@ -70,6 +105,20 @@
   box-shadow: 5px 5px 0 #100918, inset 0 0 0 1px rgba(16, 9, 24, 0.48);
 }
 
+.photo-placeholder::before,
+.scene-photo::before,
+.final-photo::before,
+.gallery-grid button::before {
+  position: absolute;
+  inset: 4px;
+  z-index: 2;
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(245, 198, 111, 0.62);
+  border-radius: 5px;
+  box-shadow: inset 0 0 18px rgba(255, 248, 241, 0.18);
+}
+
 .photo-placeholder {
   width: min(48%, 164px);
   height: auto;
@@ -80,8 +129,9 @@
 }
 
 .scene-photo {
-  width: 128px;
-  height: 128px;
+  width: min(43%, 152px);
+  height: auto;
+  aspect-ratio: 1 / 1;
 }
 
 .modal-preview img,
@@ -101,6 +151,36 @@
   height: 100%;
   border-radius: 5px;
   object-fit: cover;
+}
+
+.memory-strip {
+  display: none !important;
+}
+
+.gallery-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.gallery-grid button {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.gallery-grid button > span {
+  position: absolute;
+  inset: auto 7px 7px;
+  z-index: 3;
+  padding: 4px 6px;
+  border: 1px solid rgba(255, 248, 241, 0.74);
+  border-radius: 999px;
+  color: #fff8f1;
+  background: rgba(16, 9, 24, 0.66);
+  font-size: 0.66rem;
+  font-weight: 850;
 }
 
 .reason-sky {
@@ -126,8 +206,15 @@
   border-radius: 8px;
   font-size: clamp(0.56rem, 2.4vw, 0.72rem);
   overflow-wrap: anywhere;
+  color: #120810;
+  background: linear-gradient(135deg, #fff8f1, #f5c66f);
   box-shadow: 3px 3px 0 #100918, 0 0 14px rgba(245, 198, 111, 0.38);
   animation: tokenPulse 3.2s ease-in-out infinite;
+}
+
+.reason-token.is-found {
+  color: #100918;
+  background: linear-gradient(135deg, #9ed8e8, #fff8f1);
 }
 
 .reason-text {
@@ -194,6 +281,63 @@
   line-height: 1.32;
 }
 
+.ending-modal {
+  width: min(92vw, 430px);
+  padding: 16px;
+  border: 2px solid #100918;
+  border-radius: 10px;
+  color: #120810;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(158, 216, 232, 0.35), transparent 7rem),
+    linear-gradient(135deg, #fff8f1, #f5c66f);
+  box-shadow: 8px 8px 0 #100918, 0 34px 90px rgba(0, 0, 0, 0.44);
+}
+
+.ending-modal::backdrop {
+  background: rgba(8, 10, 21, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.ending-modal .modal-close {
+  top: 10px;
+  right: 10px;
+}
+
+.ending-modal .ending-banner {
+  margin-top: 28px;
+}
+
+.secret-badge {
+  color: #fff8f1 !important;
+  background: linear-gradient(135deg, #2b61d1, #9ed8e8) !important;
+  box-shadow:
+    0 0 0 2px #100918,
+    0 0 24px rgba(43, 97, 209, 0.72) !important;
+}
+
+.download-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  margin: 12px auto 0;
+  padding: 0 16px;
+  border: 2px solid #100918;
+  border-radius: 8px;
+  color: #120810;
+  background: linear-gradient(135deg, #fff8f1, #f5c66f);
+  box-shadow: 4px 4px 0 #100918;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.download-action:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #100918;
+}
+
 .ending-good { background: linear-gradient(135deg, #fff8f1, #9ed8e8); }
 .ending-normal { background: linear-gradient(135deg, #fff8f1, #f5c66f); }
 .ending-evil { color: #fff8f1; background: linear-gradient(135deg, #7b1f2a, #121a29); }
@@ -251,5 +395,11 @@
 
   .reason-token {
     font-size: 0.62rem;
+  }
+}
+
+@media (max-height: 710px) {
+  .scene-photo {
+    width: min(38%, 132px);
   }
 }
