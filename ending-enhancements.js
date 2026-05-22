@@ -95,6 +95,7 @@
   }, true);
 
   document.addEventListener("click", event => {
+    if (event.target.closest?.("#restartButton")) noCount = 0;
     if (event.target.closest?.("[data-no]")) noCount += 1;
     window.setTimeout(updateEndingBanner, 0);
   }, true);
