@@ -20,6 +20,11 @@
   display: none;
 }
 
+.float-gift,
+.stage-gift {
+  display: none !important;
+}
+
 .ending-banner {
   position: relative;
   display: grid;
