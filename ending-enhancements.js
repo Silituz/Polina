@@ -204,16 +204,25 @@
     lockEndings();
   };
 
-  const watchWishWords = () => {
-    if (!NativeMutationObserver || window.__polinaWishWordLock) return;
+  const scheduleCalmAll = () => {
+    if (window.__polinaFinalCalmFrame) return;
+    window.__polinaFinalCalmFrame = window.requestAnimationFrame(() => {
+      window.__polinaFinalCalmFrame = 0;
+      calmAll();
+    });
+  };
+
+  const watchFinalState = () => {
+    if (!NativeMutationObserver || window.__polinaFinalStateLock) return;
     const targets = [
-      document.querySelector(".final-screen"),
+      document.querySelector("#screens"),
+      document.querySelector("#endingModal"),
       document.querySelector("#secretModal"),
       document.documentElement
     ].filter(Boolean);
     if (!targets.length) return;
-    window.__polinaWishWordLock = true;
-    const observer = new NativeMutationObserver(calmAll);
+    window.__polinaFinalStateLock = true;
+    const observer = new NativeMutationObserver(scheduleCalmAll);
     targets.forEach(target => {
       observer.observe(target, {
         attributes: target === document.documentElement,
@@ -244,15 +253,21 @@
     if (event.target?.id === "secretModal") resetVisibleWishes();
   }, true);
 
+  window.addEventListener("click", event => {
+    if (!event.target.closest?.(".lang-option")) return;
+    currentWish = null;
+    [0, 80, 220, 520].forEach(delay => window.setTimeout(calmAll, delay));
+  }, true);
+
   loadPrevious();
   ensureCalmStyle();
   [0, 120, 420, 900, 1600, 2600].forEach(delay => window.setTimeout(() => {
     calmAll();
-    watchWishWords();
+    watchFinalState();
   }, delay));
   window.addEventListener("load", () => [0, 220, 700].forEach(delay => window.setTimeout(() => {
     calmAll();
-    watchWishWords();
+    watchFinalState();
   }, delay)), { once: true });
   window.addEventListener("click", () => window.setTimeout(calmAll, 80), true);
 })();
