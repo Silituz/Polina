@@ -1,5 +1,5 @@
 (() => {
-  const previousStableScript = "https://raw.githubusercontent.com/Silituz/Polina/e383c214b901f43ffdaf1c9d5520738d665f54f5/ending-enhancements.js";
+  const previousStableScript = "https://cdn.jsdelivr.net/gh/Silituz/Polina@e383c214b901f43ffdaf1c9d5520738d665f54f5/ending-enhancements.js";
 
   const noCopy = {
     en: [
@@ -97,11 +97,12 @@
     const scene = Math.max(1, Math.min(9, activeScreen()));
     const step = Number(button.dataset.noStep || "0");
     const lines = noCopy[lang()][scene - 1] || noCopy.en[scene - 1] || noCopy.en[0];
-    window.setTimeout(() => {
+    const afterClick = window.queueMicrotask || (callback => window.setTimeout(callback, 0));
+    afterClick(() => {
       if (document.body.contains(button)) {
         button.textContent = lines[Math.min(step, lines.length - 1)];
       }
-    }, 0);
+    });
   };
 
   window.addEventListener("click", event => {
