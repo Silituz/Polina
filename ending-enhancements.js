@@ -1,8 +1,5 @@
 (() => {
   const previousStableScript = "https://cdn.jsdelivr.net/gh/Silituz/Polina@c5ba4e5cfa5d3fefc39d96cc1a7023a722c60dc9/ending-enhancements.js";
-  const blockedLegacyScripts = [
-    "e383c214b901f43ffdaf1c9d5520738d665f54f5"
-  ];
 
   const NativeMutationObserver = window.MutationObserver;
   if (NativeMutationObserver && !window.__polinaCalmObserverPatch) {
@@ -13,24 +10,6 @@
         if (noisyBodyObserver) return undefined;
         return super.observe(target, options);
       }
-    };
-  }
-
-  if (!window.__polinaLegacyScriptBlock) {
-    window.__polinaLegacyScriptBlock = true;
-    const originalAppendChild = Element.prototype.appendChild;
-    const originalInsertBefore = Element.prototype.insertBefore;
-    const isBlockedScript = node => {
-      const src = node?.tagName === "SCRIPT" ? node.src || node.getAttribute("src") || "" : "";
-      return blockedLegacyScripts.some(hash => src.includes(hash));
-    };
-    Element.prototype.appendChild = function appendChildWithoutLegacy(node) {
-      if (isBlockedScript(node)) return node;
-      return originalAppendChild.call(this, node);
-    };
-    Element.prototype.insertBefore = function insertBeforeWithoutLegacy(node, child) {
-      if (isBlockedScript(node)) return node;
-      return originalInsertBefore.call(this, node, child);
     };
   }
 
@@ -113,6 +92,14 @@
     lockWishWords();
   };
 
+  const watchWishWords = () => {
+    if (!NativeMutationObserver || window.__polinaWishWordLock) return;
+    const final = document.querySelector(".final-screen");
+    if (!final) return;
+    window.__polinaWishWordLock = true;
+    new NativeMutationObserver(lockWishWords).observe(final, { childList: true, characterData: true, subtree: true });
+  };
+
   ["pointerover", "pointerenter", "mouseover", "mouseenter", "mousemove", "touchmove"].forEach(type => {
     window.addEventListener(type, event => {
       if (event.target.closest?.("[data-no]")) event.stopImmediatePropagation();
@@ -121,7 +108,13 @@
 
   loadPrevious();
   ensureCalmStyle();
-  [0, 120, 420, 900, 1600, 2600].forEach(delay => window.setTimeout(calmAll, delay));
-  window.addEventListener("load", () => [0, 220, 700].forEach(delay => window.setTimeout(calmAll, delay)), { once: true });
+  [0, 120, 420, 900, 1600, 2600].forEach(delay => window.setTimeout(() => {
+    calmAll();
+    watchWishWords();
+  }, delay));
+  window.addEventListener("load", () => [0, 220, 700].forEach(delay => window.setTimeout(() => {
+    calmAll();
+    watchWishWords();
+  }, delay)), { once: true });
   window.addEventListener("click", () => window.setTimeout(calmAll, 80), true);
 })();
