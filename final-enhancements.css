@@ -57,7 +57,7 @@ h2 {
 }
 
 .float-gift,
-.stage-gift {
+stage-gift {
   display: none !important;
 }
 
@@ -739,8 +739,8 @@ html body .ending-modal .ending-banner {
 }
 
 html body .ending-modal .ending-label {
-  color: #ffe7b8 !important;
-  text-shadow: 0 0 16px rgba(255, 231, 184, 0.46) !important;
+  color: #120810 !important;
+  text-shadow: 0 1px 0 rgba(255, 248, 241, 0.55) !important;
 }
 
 html body .ending-modal .ending-banner strong,
