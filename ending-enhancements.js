@@ -114,7 +114,7 @@
 
   const lockWishWords = () => {
     const words = document.documentElement.lang === "ru"
-      ? ["\u0422\u0412\u041e\u042f", "\u0423\u041b\u042b\u0411\u041a\u0410", "\u0421\u0412\u0415\u0422\u0418\u0422", "\u041c\u041e\u0415\u041c\u0423", "\u0421\u0415\u0420\u0414\u0426\u0423"]
+      ? ["\u0422\u0412\u041e\u042f", "\u0423\u041b\u042B\u0411\u041A\u0410", "\u0421\u0412\u0415\u0422\u0418\u0422", "\u041C\u041E\u0415\u041C\u0423", "\u0421\u0415\u0420\u0414\u0426\u0423"]
       : ["YOUR", "SMILE", "LIGHTS", "MY", "HEART"];
     document.querySelectorAll(".final-screen .reason-token").forEach((button, index) => {
       const span = button.querySelector("span") || button;
@@ -153,10 +153,23 @@
 
   const watchWishWords = () => {
     if (!NativeMutationObserver || window.__polinaWishWordLock) return;
-    const final = document.querySelector(".final-screen");
-    if (!final) return;
+    const targets = [
+      document.querySelector(".final-screen"),
+      document.querySelector("#secretModal"),
+      document.documentElement
+    ].filter(Boolean);
+    if (!targets.length) return;
     window.__polinaWishWordLock = true;
-    new NativeMutationObserver(lockWishWords).observe(final, { childList: true, characterData: true, subtree: true });
+    const observer = new NativeMutationObserver(calmAll);
+    targets.forEach(target => {
+      observer.observe(target, {
+        attributes: target === document.documentElement,
+        attributeFilter: target === document.documentElement ? ["lang"] : undefined,
+        childList: true,
+        characterData: true,
+        subtree: target !== document.documentElement
+      });
+    });
   };
 
   ["pointerover", "pointerenter", "mouseover", "mouseenter", "mousemove", "touchmove"].forEach(type => {
