@@ -1,30 +1,7 @@
 (() => {
-  const previousStableScript = "https://cdn.jsdelivr.net/gh/Silituz/Polina@e383c214b901f43ffdaf1c9d5520738d665f54f5/ending-enhancements.js";
-  const noCopy = {
-    en: [
-      ["Not on the first birthday howl.", "The moon says try yes.", "Too sweet to refuse.", "Okay, next little step."],
-      ["The moon mail is already sealed.", "This wish still finds you.", "No hiding from birthday magic.", "Forward it goes."],
-      ["The wolf power stays awake.", "Brave hearts do not skip this.", "The pack is politely stubborn.", "Onward with sparkle."],
-      ["This memory wants to shine.", "The glow refuses to leave.", "A tiny smile is required.", "Next memory, please."],
-      ["The patrol guards the mood.", "Boring thoughts are blocked.", "A wolf vote says yes.", "Marching on softly."],
-      ["The northern lights disagree.", "This magic picked you.", "The sky is being dramatic.", "Fine, we follow it."],
-      ["Smile rescue is active.", "No escape from cute energy.", "The mission keeps going.", "Tiny victory, next."],
-      ["The final howl needs courage.", "Almost there, no running.", "The snow path insists.", "One last step."],
-      ["The surprise box stays closed.", "Not yet, birthday mystery.", "The ribbon refuses no.", "Opening the ending."]
-    ],
-    ru: [
-      ["Не в первый именинный вой.", "Луна просит сказать да.", "Слишком мило, чтобы отказаться.", "Ладно, идем дальше."],
-      ["Лунное письмо уже в пути.", "Это пожелание все равно дойдет.", "От магии дня рождения не спрятаться.", "Пусть едет дальше."],
-      ["Волчья сила не спит.", "Смелые сердца так не сбегают.", "Стая мило упрямится.", "Вперед, с искрами."],
-      ["Это воспоминание хочет сиять.", "Маленький свет не уйдет.", "Тут нужна хоть одна улыбка.", "К следующему теплу."],
-      ["Патруль охраняет настроение.", "Скучные мысли заблокированы.", "Стая голосует за да.", "Мягко идем дальше."],
-      ["Северное сияние не согласно.", "Эта магия выбрала тебя.", "Небо драматично настаивает.", "Ладно, идем за ним."],
-      ["Спасение улыбки включено.", "От милоты не убежать.", "Миссия еще жива.", "Маленькая победа."],
-      ["Для финального воя нужна смелость.", "Уже почти дошли, не сбегай.", "Снежная тропа упряма.", "Еще один шаг."],
-      ["Сюрприз пока не открыт.", "Еще рано, именинная тайна.", "Лента не принимает отказ.", "Открываем финал."]
-    ]
-  };
-  const polishCopy = {
+  const previousStableScript = "https://cdn.jsdelivr.net/gh/Silituz/Polina@c5ba4e5cfa5d3fefc39d96cc1a7023a722c60dc9/ending-enhancements.js";
+
+  const copy = {
     en: {
       endings: {
         good: ["Pure snow wolf", "The gentlest heart in the snow", "Polina, you mean so much to me. Every kind answer felt like your little light walking through the snow, and this ending is my warmest birthday wish for you. May you always feel protected, chosen, and deeply appreciated."],
@@ -62,67 +39,92 @@
       secretCopy: "Твоя улыбка светит моему сердцу. Вот какое скрытое пожелание несла вся эта маленькая страница. Пусть ты чувствуешь тепло даже в тихие моменты, гордишься собой и помнишь, что ты очень много для меня значишь."
     }
   };
+
   const badScenes = new Set();
   const lang = () => document.documentElement.lang === "ru" ? "ru" : "en";
   const activeScreen = () => Number(document.querySelector(".screen.active")?.dataset.screen || "0");
   const endingKey = () => badScenes.size === 0 ? "good" : badScenes.size >= 9 ? "evil" : "normal";
-  const setText = (el, value) => { if (el && el.textContent !== value) el.textContent = value; };
+  const setText = (element, value) => {
+    if (element && element.textContent !== value) element.textContent = value;
+  };
 
-  const applyKpopStyle = () => {
-    document.querySelector("#polina-kpop-style")?.remove();
+  const installCalmStyle = () => {
+    document.querySelector("#polina-calm-final-style")?.remove();
     const style = document.createElement("style");
-    style.id = "polina-kpop-style";
+    style.id = "polina-calm-final-style";
     style.textContent = `
-      body::before { position: fixed !important; inset: 0 !important; z-index: 0 !important; content: "" !important; pointer-events: none !important; background: radial-gradient(circle at 12% 10%, rgba(184,128,255,.34), transparent 16rem), radial-gradient(circle at 84% 12%, rgba(255,132,220,.2), transparent 14rem), radial-gradient(circle at 52% 78%, rgba(120,174,255,.2), transparent 18rem), linear-gradient(135deg, rgba(105,55,188,.2), rgba(255,255,255,0) 38%, rgba(255,197,236,.14)) !important; mix-blend-mode: screen !important; }
-      body::after { position: fixed !important; inset: 0 !important; z-index: 0 !important; content: "" !important; pointer-events: none !important; opacity: .38 !important; background-image: radial-gradient(circle, rgba(255,255,255,.86) 0 1px, transparent 1.6px), radial-gradient(circle, rgba(198,166,255,.82) 0 1px, transparent 1.7px), radial-gradient(circle at 50% 35%, rgba(180,120,255,.28), transparent 5rem) !important; background-position: 0 0, 24px 18px, 50% 20% !important; background-size: 72px 72px, 96px 96px, 100% 100% !important; }
-      .page-shell { position: relative !important; z-index: 1 !important; isolation: isolate !important; }
-      .cover-main, .panel-card h2, .final-screen h2, .secret-card h2 { color: #fffaff !important; letter-spacing: 0 !important; background: linear-gradient(112deg, #ffffff 0 16%, #ffe3ff 27%, #d7bdff 42%, #a688ff 56%, #9ed8ff 70%, #fff2be 86%, #ffffff 100%) !important; -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important; text-shadow: 0 1px 0 rgba(76,36,138,.88), 0 0 12px rgba(255,230,255,.96), 0 0 28px rgba(175,119,255,.72), 0 0 48px rgba(112,162,255,.46), 0 0 62px rgba(255,188,238,.3) !important; filter: drop-shadow(0 0 10px rgba(255,211,249,.54)) !important; }
-      .cover-main::after, .panel-card h2::after, .final-screen h2::after, .secret-card h2::after { display: none !important; content: none !important; }
+      .final-screen .reason-token,
+      .final-screen .reason-token *,
+      .final-screen .reason-text,
+      .ending-modal .ending-banner,
+      .ending-modal .ending-banner *,
+      .final-screen .ending-banner,
+      .final-screen .ending-banner *,
+      .secret-modal .secret-card,
+      .secret-modal .secret-card * {
+        animation: none !important;
+        transition: none !important;
+      }
+      .final-screen .reason-token {
+        opacity: 1 !important;
+        transform: none !important;
+        will-change: auto !important;
+        user-select: none !important;
+      }
+      .final-screen .reason-token span {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 1em !important;
+      }
+      .final-screen .reason-text,
+      .ending-modal .ending-banner small,
+      .secret-modal .secret-card p {
+        user-select: text !important;
+      }
+      .final-screen .reason-text::selection,
+      .ending-modal .ending-banner *::selection,
+      .secret-modal .secret-card *::selection {
+        color: #120810 !important;
+        background: rgba(255, 242, 190, 0.82) !important;
+      }
     `;
     document.head.appendChild(style);
   };
 
-  const rewriteNoText = (button, force = false) => {
-    const scene = Math.max(1, Math.min(9, activeScreen()));
-    const step = Math.max(0, Number(button.dataset.noStep || "0") - (force ? 1 : 0));
-    const lines = noCopy[lang()][scene - 1] || noCopy.en[scene - 1] || noCopy.en[0];
-    const value = lines[Math.min(step, lines.length - 1)];
-    const set = () => setText(button, value);
-    (window.queueMicrotask || (callback => window.setTimeout(callback, 0)))(set);
-    window.setTimeout(set, 20);
-    window.setTimeout(set, 80);
+  const stableWishes = () => {
+    const current = copy[lang()];
+    document.querySelectorAll(".reason-token").forEach((button, index) => {
+      setText(button.querySelector("span") || button, current.tokens[index] || current.tokens[0]);
+    });
+    const reason = document.querySelector("#reasonText");
+    if (reason && !reason.dataset.customWish) setText(reason, current.wishBase);
+    setText(document.querySelector("#secretTitle"), current.secretTitle);
+    setText(document.querySelector("#secretCopy"), current.secretCopy);
   };
 
-  const setBanner = banner => {
-    if (!banner) return;
-    const [label, title, body] = polishCopy[lang()].endings[endingKey()];
-    banner.className = `ending-banner ending-${endingKey()}`;
-    setText(banner.querySelector(".ending-label"), label);
-    setText(banner.querySelector("strong"), title);
-    setText(banner.querySelector("small"), body);
+  const stableEndings = () => {
+    const [label, title, body] = copy[lang()].endings[endingKey()];
+    document.querySelectorAll(".final-screen .ending-banner, #endingModal .ending-banner").forEach(banner => {
+      banner.className = `ending-banner ending-${endingKey()}`;
+      setText(banner.querySelector(".ending-label"), label);
+      setText(banner.querySelector("strong"), title);
+      setText(banner.querySelector("small"), body);
+    });
   };
-  const polishEndings = () => { setBanner(document.querySelector(".final-screen .ending-banner")); setBanner(document.querySelector("#endingModal .ending-banner")); };
-  const polishWishes = () => {
-    const c = polishCopy[lang()];
-    document.querySelectorAll(".reason-token").forEach((button, index) => setText(button.querySelector("span") || button, c.tokens[index] || c.tokens[0]));
-    const reason = document.querySelector("#reasonText");
-    if (reason && !reason.dataset.customWish) setText(reason, c.wishBase);
-    setText(document.querySelector("#secretTitle"), c.secretTitle);
-    setText(document.querySelector("#secretCopy"), c.secretCopy);
+
+  const stabilize = () => {
+    installCalmStyle();
+    stableWishes();
+    stableEndings();
   };
-  const polishNoButtons = () => document.querySelectorAll("[data-no]").forEach(button => { if (button.textContent.includes(":")) rewriteNoText(button, true); });
-  const polishContent = () => { polishWishes(); polishEndings(); polishNoButtons(); };
-  const polishAll = () => { applyKpopStyle(); polishContent(); };
-  const schedulePolish = () => [0, 40, 120, 320, 700].forEach(delay => window.setTimeout(polishContent, delay));
+
+  const scheduleStabilize = () => [0, 30, 90, 220, 520].forEach(delay => window.setTimeout(stabilize, delay));
 
   window.addEventListener("click", event => {
     const noButton = event.target.closest?.("[data-no]");
-    if (noButton) {
-      badScenes.add(Math.max(1, Math.min(9, activeScreen())));
-      rewriteNoText(noButton);
-      schedulePolish();
-      return;
-    }
+    if (noButton) badScenes.add(Math.max(1, Math.min(9, activeScreen())));
+
     const token = event.target.closest?.(".reason-token");
     if (token) {
       const index = Number(token.dataset.reason || "0");
@@ -130,25 +132,32 @@
         const reason = document.querySelector("#reasonText");
         if (reason) {
           reason.dataset.customWish = "true";
-          setText(reason, polishCopy[lang()].wishes[index] || polishCopy[lang()].wishBase);
+          setText(reason, copy[lang()].wishes[index] || copy[lang()].wishBase);
         }
+        stableWishes();
       };
       (window.queueMicrotask || (callback => window.setTimeout(callback, 0)))(setWish);
-      window.setTimeout(setWish, 30);
+      window.setTimeout(setWish, 40);
+      window.setTimeout(setWish, 140);
     }
-    schedulePolish();
+    scheduleStabilize();
   }, true);
 
-  const loadStableFixes = () => {
+  const loadPrevious = () => {
     const script = document.createElement("script");
     script.src = previousStableScript;
-    script.onload = () => { polishAll(); [80, 220, 620, 1200].forEach(delay => window.setTimeout(polishAll, delay)); };
-    script.onerror = polishAll;
+    script.onload = () => {
+      scheduleStabilize();
+      [900, 1800, 3200].forEach(delay => window.setTimeout(stabilize, delay));
+    };
+    script.onerror = stabilize;
     document.head.appendChild(script);
   };
 
-  polishAll();
-  [300, 900, 1800, 3500].forEach(delay => window.setTimeout(polishAll, delay));
-  document.addEventListener("close", event => { if (event.target?.id === "secretModal") window.setTimeout(polishWishes, 20); }, true);
-  loadStableFixes();
+  stabilize();
+  [300, 900, 1800].forEach(delay => window.setTimeout(stabilize, delay));
+  document.addEventListener("close", event => {
+    if (["secretModal", "endingModal", "photoModal", "galleryModal"].includes(event.target?.id)) scheduleStabilize();
+  }, true);
+  loadPrevious();
 })();
