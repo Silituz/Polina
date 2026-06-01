@@ -1,5 +1,8 @@
 (() => {
   const previousStableScript = "https://cdn.jsdelivr.net/gh/Silituz/Polina@c5ba4e5cfa5d3fefc39d96cc1a7023a722c60dc9/ending-enhancements.js";
+  const blockedLegacyScripts = [
+    "e383c214b901f43ffdaf1c9d5520738d665f54f5"
+  ];
 
   const NativeMutationObserver = window.MutationObserver;
   if (NativeMutationObserver && !window.__polinaCalmObserverPatch) {
@@ -10,6 +13,24 @@
         if (noisyBodyObserver) return undefined;
         return super.observe(target, options);
       }
+    };
+  }
+
+  if (!window.__polinaLegacyScriptBlock) {
+    window.__polinaLegacyScriptBlock = true;
+    const originalAppendChild = Element.prototype.appendChild;
+    const originalInsertBefore = Element.prototype.insertBefore;
+    const isBlockedScript = node => {
+      const src = node?.tagName === "SCRIPT" ? node.src || node.getAttribute("src") || "" : "";
+      return blockedLegacyScripts.some(hash => src.includes(hash));
+    };
+    Element.prototype.appendChild = function appendChildWithoutLegacy(node) {
+      if (isBlockedScript(node)) return node;
+      return originalAppendChild.call(this, node);
+    };
+    Element.prototype.insertBefore = function insertBeforeWithoutLegacy(node, child) {
+      if (isBlockedScript(node)) return node;
+      return originalInsertBefore.call(this, node, child);
     };
   }
 
@@ -76,6 +97,22 @@
     });
   };
 
+  const lockWishWords = () => {
+    const words = document.documentElement.lang === "ru"
+      ? ["\u0422\u0412\u041e\u042f", "\u0423\u041b\u042b\u0411\u041a\u0410", "\u0421\u0412\u0415\u0422\u0418\u0422", "\u041c\u041e\u0415\u041c\u0423", "\u0421\u0415\u0420\u0414\u0426\u0423"]
+      : ["YOUR", "SMILE", "LIGHTS", "MY", "HEART"];
+    document.querySelectorAll(".final-screen .reason-token").forEach((button, index) => {
+      const span = button.querySelector("span") || button;
+      const word = words[index] || words[0];
+      if (span.textContent !== word) span.textContent = word;
+    });
+  };
+
+  const calmAll = () => {
+    calmFinalElements();
+    lockWishWords();
+  };
+
   ["pointerover", "pointerenter", "mouseover", "mouseenter", "mousemove", "touchmove"].forEach(type => {
     window.addEventListener(type, event => {
       if (event.target.closest?.("[data-no]")) event.stopImmediatePropagation();
@@ -84,7 +121,7 @@
 
   loadPrevious();
   ensureCalmStyle();
-  [0, 120, 420, 900, 1600, 2600].forEach(delay => window.setTimeout(calmFinalElements, delay));
-  window.addEventListener("load", () => [0, 220, 700].forEach(delay => window.setTimeout(calmFinalElements, delay)), { once: true });
-  window.addEventListener("click", () => window.setTimeout(calmFinalElements, 80), true);
+  [0, 120, 420, 900, 1600, 2600].forEach(delay => window.setTimeout(calmAll, delay));
+  window.addEventListener("load", () => [0, 220, 700].forEach(delay => window.setTimeout(calmAll, delay)), { once: true });
+  window.addEventListener("click", () => window.setTimeout(calmAll, 80), true);
 })();
