@@ -1,5 +1,17 @@
 (() => {
   const previousStableScript = "https://cdn.jsdelivr.net/gh/Silituz/Polina@c5ba4e5cfa5d3fefc39d96cc1a7023a722c60dc9/ending-enhancements.js";
+  const finalCopy = {
+    en: {
+      wishBase: "Tap the five little words and find the sentence I kept just for you.",
+      secretTitle: "A little sentence just for you",
+      secretCopy: "Your smile lights my heart. That is the quiet wish hidden inside this page: may you feel cherished today, gently held by good moments, and reminded that you mean more to me than a small birthday page can ever fully say."
+    },
+    ru: {
+      wishBase: "\u041d\u0430\u0436\u043c\u0438 \u043d\u0430 \u043f\u044f\u0442\u044c \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0445 \u0441\u043b\u043e\u0432 \u0438 \u043d\u0430\u0439\u0434\u0438 \u0444\u0440\u0430\u0437\u0443, \u043a\u043e\u0442\u043e\u0440\u0443\u044e \u044f \u0441\u043f\u0440\u044f\u0442\u0430\u043b \u0442\u043e\u043b\u044c\u043a\u043e \u0434\u043b\u044f \u0442\u0435\u0431\u044f.",
+      secretTitle: "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0430\u044f \u0444\u0440\u0430\u0437\u0430 \u0442\u043e\u043b\u044c\u043a\u043e \u0434\u043b\u044f \u0442\u0435\u0431\u044f",
+      secretCopy: "\u0422\u0432\u043e\u044f \u0443\u043b\u044b\u0431\u043a\u0430 \u0441\u0432\u0435\u0442\u0438\u0442 \u043c\u043e\u0435\u043c\u0443 \u0441\u0435\u0440\u0434\u0446\u0443. \u0412\u043e\u0442 \u043a\u0430\u043a\u043e\u0435 \u0442\u0438\u0445\u043e\u0435 \u0436\u0435\u043b\u0430\u043d\u0438\u0435 \u0431\u044b\u043b\u043e \u0441\u043f\u0440\u044f\u0442\u0430\u043d\u043e \u0432 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435: \u043f\u0443\u0441\u0442\u044c \u0442\u044b \u0441\u0435\u0433\u043e\u0434\u043d\u044f \u0447\u0443\u0432\u0441\u0442\u0432\u0443\u0435\u0448\u044c \u0442\u0435\u043f\u043b\u043e, \u043d\u0435\u0436\u043d\u043e\u0441\u0442\u044c \u0438 \u0442\u043e, \u0447\u0442\u043e \u0442\u044b \u0434\u043b\u044f \u043c\u0435\u043d\u044f \u043e\u0447\u0435\u043d\u044c \u043c\u043d\u043e\u0433\u043e \u0437\u043d\u0430\u0447\u0438\u0448\u044c."
+    }
+  };
 
   const NativeMutationObserver = window.MutationObserver;
   if (NativeMutationObserver && !window.__polinaCalmObserverPatch) {
@@ -59,6 +71,30 @@
       .secret-modal .secret-card p {
         user-select: text !important;
       }
+      .secret-modal::backdrop {
+        background:
+          radial-gradient(circle at 20% 18%, rgba(190, 135, 255, 0.3), transparent 18rem),
+          radial-gradient(circle at 80% 18%, rgba(255, 172, 226, 0.18), transparent 16rem),
+          rgba(8, 5, 18, 0.72) !important;
+        backdrop-filter: blur(9px) saturate(1.2) !important;
+      }
+      .secret-modal .secret-card {
+        color: #fff8ff !important;
+        background:
+          linear-gradient(145deg, rgba(31, 18, 58, 0.98), rgba(78, 42, 116, 0.96) 48%, rgba(19, 24, 55, 0.98)) !important;
+        border: 1px solid rgba(255, 229, 255, 0.35) !important;
+        box-shadow:
+          0 28px 70px rgba(0, 0, 0, 0.5),
+          0 0 34px rgba(184, 126, 255, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+      }
+      .secret-modal .secret-card::before {
+        background: linear-gradient(90deg, rgba(255, 221, 255, 0.1), rgba(204, 164, 255, 0.28), rgba(255, 242, 190, 0.16)) !important;
+      }
+      .secret-modal .secret-badge {
+        color: #9ed8ff !important;
+        text-shadow: 0 0 18px rgba(158, 216, 255, 0.82), 0 0 34px rgba(190, 135, 255, 0.5) !important;
+      }
     `;
     document.head.appendChild(style);
   };
@@ -87,9 +123,32 @@
     });
   };
 
+  const lockFinalText = () => {
+    const copy = finalCopy[document.documentElement.lang === "ru" ? "ru" : "en"];
+    const reason = document.querySelector("#reasonText");
+    if (reason && !reason.dataset.customWish && reason.textContent !== copy.wishBase) {
+      reason.textContent = copy.wishBase;
+    }
+    const secretTitle = document.querySelector("#secretTitle");
+    const secretCopy = document.querySelector("#secretCopy");
+    if (secretTitle && secretTitle.textContent !== copy.secretTitle) secretTitle.textContent = copy.secretTitle;
+    if (secretCopy && secretCopy.textContent !== copy.secretCopy) secretCopy.textContent = copy.secretCopy;
+  };
+
+  const resetVisibleWishes = () => {
+    window.setTimeout(() => {
+      document.querySelectorAll(".final-screen .reason-token.is-found").forEach(button => button.classList.remove("is-found"));
+      const reason = document.querySelector("#reasonText");
+      if (reason) delete reason.dataset.customWish;
+      lockWishWords();
+      lockFinalText();
+    }, 80);
+  };
+
   const calmAll = () => {
     calmFinalElements();
     lockWishWords();
+    lockFinalText();
   };
 
   const watchWishWords = () => {
@@ -105,6 +164,10 @@
       if (event.target.closest?.("[data-no]")) event.stopImmediatePropagation();
     }, true);
   });
+
+  document.addEventListener("close", event => {
+    if (event.target?.id === "secretModal") resetVisibleWishes();
+  }, true);
 
   loadPrevious();
   ensureCalmStyle();
