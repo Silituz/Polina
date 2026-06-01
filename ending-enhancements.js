@@ -7,8 +7,7 @@
     window.MutationObserver = class PolinaCalmMutationObserver extends NativeMutationObserver {
       observe(target, options = {}) {
         const noisyBodyObserver = target === document.body && options.subtree && (options.childList || options.characterData);
-        const noisyScreenObserver = target?.id === "screens" && options.subtree && options.attributes;
-        if (noisyBodyObserver || noisyScreenObserver) return undefined;
+        if (noisyBodyObserver) return undefined;
         return super.observe(target, options);
       }
     };
